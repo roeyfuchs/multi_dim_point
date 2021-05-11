@@ -1,0 +1,12 @@
+[package]
+name = "multi_dim_point"
+version = "0.1.0"
+authors = ["Roey Fuchs <fuchsroey@gmail.com>"]
+edition = "2018"
+description = "A simple multi-dimensions point"
+license = "MIT OR Apache-2.0"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+num = "0.4.0"
