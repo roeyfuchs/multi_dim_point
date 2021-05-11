@@ -34,3 +34,6 @@ p1.apply_func(&p2, &add_f); // return a vector ([4, 16, 78, 262, 0])
 ```
 
 See more examples in the documentation.
+
+## License
+This code uses crate that under MIT license.
