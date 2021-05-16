@@ -21,9 +21,14 @@ let p4: Point<i32> = &p3-&p2;
 
 let p5: Point<i32> = &p4 * &5 // multiply each value in the point.
 let p6: Point<i32> = &p5 / &5;
+
+p1 == p2; // return false 
+p1.close(&p2, 10) // return true
+
 ```
 
 ```
+use multi_dim_point::Point;
 fn add_f(num1: &i32, num2: &i32) -> i32 {
 	num1 + num2
 }

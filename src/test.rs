@@ -224,4 +224,47 @@ mod tests {
         let mut p1: Point<i32> = Point::new_from_vec(&vec![2, 8]);
         p1.set_value(3, &1);
     }
+    // equal test
+    #[test]
+    fn equal() {
+        let  p1: Point<i32> = Point::new_from_vec(&vec![2, 8]);
+        let  p2: Point<i32> = Point::new_from_vec(&vec![2, 8]);
+        assert_eq!(p1==p2, true);
+    }
+    #[test]
+    fn not_equal() {
+        let  p1: Point<i32> = Point::new_from_vec(&vec![2, 8]);
+        let  p2: Point<i32> = Point::new_from_vec(&vec![22, 8]);
+        assert_eq!(p1==p2, false);
+    }
+    #[test]
+    fn not_equal_dim() {
+        let  p1: Point<i32> = Point::new_from_vec(&vec![2, 8]);
+        let  p2: Point<i32> = Point::new_from_vec(&vec![2, 8,9]);
+        assert_eq!(p1==p2, false);
+    }
+    // epsilon-far test
+    #[test]
+    fn close() {
+        let  p1: Point<i32> = Point::new_from_vec(&vec![2, 8]);
+        let  p2: Point<i32> = Point::new_from_vec(&vec![4, 5]);
+        assert_eq!(p1.close(&p2,3), true);
+    }
+    #[test]
+    fn close_same_point() {
+        let  p1: Point<i32> = Point::new_from_vec(&vec![2, 8]);
+        assert_eq!(p1.close(&p1,0), true);
+    }
+    #[test]
+    fn not_close() {
+        let  p1: Point<i32> = Point::new_from_vec(&vec![2, 8]);
+        let  p2: Point<i32> = Point::new_from_vec(&vec![50, 42]);
+        assert_eq!(p1.close(&p2,3), false);
+    }
+    #[test]
+    fn close_in_part_of_dims() {
+        let  p1: Point<i32> = Point::new_from_vec(&vec![2, 8]);
+        let  p2: Point<i32> = Point::new_from_vec(&vec![2, 42]);
+        assert_eq!(p1.close(&p2,3), false);
+    }
 }

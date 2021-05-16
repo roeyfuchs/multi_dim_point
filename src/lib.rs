@@ -2,6 +2,7 @@
 //! A crate that provides a simple multidimensional point struct, base on a vector.
 
 #![allow(dead_code)]
+use num::traits::Signed;
 use std::ops::{Add, Div, Mul, Sub};
 /// multidimensional point type.
 pub struct Point<T> {
@@ -32,7 +33,11 @@ where
             dim: dimension,
         }
     }
-
+}
+impl<T> Point<T>
+where
+    T: Clone,
+{
     /// Creates a new point from a vector.
     /// # Examples
     /// ```
@@ -365,6 +370,76 @@ where
     /// ```
     fn div(self, scalar: S) -> Point<T> {
         &self / &scalar
+    }
+}
+
+impl<T> PartialEq for Point<T>
+where
+    T: PartialEq + Clone,
+{
+    /// == operator. Check if 2 points are the same (in all dimensions).
+    /// # Examples
+    /// ```
+    /// use multi_dim_point::Point;
+    /// let p1: Point<i32> = Point::new_from_vec(&vec![5,10,15]);
+    /// let p2: Point<i32> = Point::new_from_vec(&vec![5,10,15]);
+    /// assert_eq!(&p1 == &p2, true);
+    /// ```
+    /// ```
+    /// use multi_dim_point::Point;
+    /// let p1: Point<i32> = Point::new_from_vec(&vec![10,15]);
+    /// let p2: Point<i32> = Point::new_from_vec(&vec![5,10,15]);
+    /// assert_eq!(&p1 == &p2, false);
+    /// ```
+    /// ```
+    /// use multi_dim_point::Point;
+    /// let p1: Point<i32> = Point::new_from_vec(&vec![20,10,15]);
+    /// let p2: Point<i32> = Point::new_from_vec(&vec![5,10,15]);
+    /// assert_eq!(&p1 == &p2, false);
+    /// ```
+    ///
+    fn eq(&self, other: &Self) -> bool {
+        self.get_size() == other.get_size()
+            && self
+                .get_vector()
+                .iter()
+                .zip(other.get_vector().iter())
+                .all(|(a, b)| a == b)
+    }
+}
+
+impl<T> Point<T>
+where
+    T: Sub<Output = T> + PartialOrd + Clone + Copy + Signed,
+{
+    /// Check if the points are close to each other, in each dimension, up to epsilon.
+    ///
+    /// # Examples:
+    /// ```
+    /// use multi_dim_point::Point;
+    /// let p1: Point<i32> = Point::new_from_vec(&vec![5,10,15]);
+    /// let p2: Point<i32> = Point::new_from_vec(&vec![7,8,14]);
+    /// assert_eq!(p1.close(&p2,3), true);
+    /// ```
+    /// ```
+    /// use multi_dim_point::Point;
+    /// let p1: Point<i32> = Point::new_from_vec(&vec![11,10,15]);
+    /// let p2: Point<i32> = Point::new_from_vec(&vec![7,8,14]);
+    /// assert_eq!(p1.close(&p2,3), false);
+    /// ```
+    /// ```
+    /// use multi_dim_point::Point;
+    /// let p1: Point<i32> = Point::new_from_vec(&vec![7,8,14]);
+    /// let p2: Point<i32> = Point::new_from_vec(&vec![7,8,14]);
+    /// assert_eq!(p1.close(&p2,0), true);
+    /// ```
+    pub fn close(&self, other: &Self, eps: T) -> bool {
+        self.get_size() == other.get_size()
+            && self
+                .get_vector()
+                .iter()
+                .zip(other.get_vector().iter())
+                .all(|(a, b)| (*a - *b).abs() <= eps)
     }
 }
 
