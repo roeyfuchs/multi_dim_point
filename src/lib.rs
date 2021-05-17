@@ -442,6 +442,14 @@ where
                 .all(|(a, b)| (*a - *b).abs() <= eps)
     }
 }
+impl<T> Clone for Point<T>
+where
+    T: Clone,
+{
+    fn clone(&self) -> Self {
+        Point::new_from_vec(&self.get_vector())
+    }
+}
 
 #[cfg(test)]
 mod test;

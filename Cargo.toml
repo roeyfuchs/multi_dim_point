@@ -1,6 +1,6 @@
 [package]
 name = "multi_dim_point"
-version = "0.2.0"
+version = "0.3.0"
 authors = ["Roey Fuchs <fuchsroey@gmail.com>"]
 edition = "2018"
 description = "A simple multi-dimensional point"
